@@ -20,15 +20,17 @@ export default ({
 							wx.setStorageSync(Constant.AUTHENTICATION, res.header[Constant.AUTHENTICATION]);
 						}
 						return resolve(res);
-					}					
-					if (res.statusCode == 401 && url !=="/pages/login/main") {
+					}
+					const pages = getCurrentPages();			
+					const pageUrl = pages[pages.length-1].route;
+					console.log("url: " + pageUrl);
+					if (res.statusCode == 401 && pageUrl !=="pages/login/main") {
 						const url = "/pages/login/main";
 						wx.navigateTo({ url });
 					}
 					return reject(res);
 				},
 				fail: function (res) {
-
 					reject({
 						msg: 'call api failed'
 					})
