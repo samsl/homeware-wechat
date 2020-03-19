@@ -1,5 +1,5 @@
 <template>
-  <van-card :thumb="movie.post">
+  <van-card :thumb="movie.post" :tag="idx+1">
     <div slot="title" class="title">{{movie.name}}</div>
     <div slot="desc">
       <div class="rating-line">
@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-  props: ["movie"],
+  props: ["movie", "idx"],
   computed: {
     rating() {
       return Math.round(this.movie.rating) / 2;

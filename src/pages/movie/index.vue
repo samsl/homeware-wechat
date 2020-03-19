@@ -1,30 +1,34 @@
 <template>
   <div>
-    <van-search
-      :value="keyword"
-      placeholder="请输入关键词"
-      shape="round"
-      @search="search"
-      use-action-slot
-    >
-      <div slot="action" @click="show=!show">
-        <van-icon name="filter-o"></van-icon>筛选
-      </div>
-    </van-search>
-    <div class="filter-tags">
-      <div class="filter-tag">
-        <van-tag type="success" round v-if="currentGenre>0">{{genres[currentGenre]}}</van-tag>
-      </div>
-      <div class="filter-tag">
-        <van-tag type="success" round v-if="currentRegion>0">{{regions[currentRegion]}}</van-tag>
-      </div>
-      <div class="filter-tag">
-        <van-tag type="success" round v-if="currentYear>0">{{years[currentYear]}}</van-tag>
+    <div class="search-section">
+      <van-search
+        :value="keyword"
+        placeholder="请输入关键词"
+        shape="round"
+        @search="search"
+        use-action-slot
+      >
+        <div slot="action" @click="show=!show">
+          <van-icon name="filter-o"></van-icon>筛选
+        </div>
+      </van-search>
+
+      <div class="filter-tags" v-if="currentGenre>0 || currentRegion>0 || currentYear>0">
+        <div class="filter-tag">
+          <van-tag type="success" round v-if="currentGenre>0">{{genres[currentGenre]}}</van-tag>
+        </div>
+        <div class="filter-tag">
+          <van-tag type="success" round v-if="currentRegion>0">{{regions[currentRegion]}}</van-tag>
+        </div>
+        <div class="filter-tag">
+          <van-tag type="success" round v-if="currentYear>0">{{years[currentYear]}}</van-tag>
+        </div>
       </div>
     </div>
+
     <div class="movies">
       <div v-for="(movie,i) in movies" :key="i" class="movie">
-        <movie :movie="movie" />
+        <movie :movie="movie" :idx="i" />
       </div>
     </div>
     <van-popup :show="show" position="bottom" @close="show=false">
@@ -232,8 +236,15 @@ export default {
 };
 </script>
 <style>
+.search-section {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
 .movies {
   margin-bottom: 100rpx;
+  margin-top: 120rpx;
 }
 .button-group {
   display: flex;
@@ -260,7 +271,7 @@ export default {
 }
 .filter-tags {
   background: #f2f2f2;
-  padding: 0 30rpx;
+  padding: 0 30rpx 15rpx;
   display: flex;
 }
 .filter-tag {
