@@ -15,6 +15,7 @@
       <van-icon name="shopping-cart-o" size="3em" />
       <span>暂无商品</span>
     </div>
+    <div class="products">
     <div
       v-for="product in products"
       :key="product.id"
@@ -31,6 +32,8 @@
     >
       <book :book="book" />
     </div>
+    </div>
+     <mytabbar :active="active"></mytabbar>
   </div>
 </template>
 <script>
@@ -39,9 +42,11 @@ import ProductService from "@/api/productService";
 import Product from "@/components/product";
 import Book from "@/components/book";
 import BookService from "@/api/bookService";
+import mytabbar from "@/components/tabbar";
 export default {
   data() {
     return {
+      active:0,
       keyword: "",
       products: [],
       books: []
@@ -92,7 +97,8 @@ export default {
   },
   components: {
     Product,
-    Book
+    Book,
+    mytabbar
   }
 };
 </script>
@@ -106,5 +112,8 @@ export default {
 }
 .product {
   margin-bottom: 10rpx;
+}
+.products {
+  margin-bottom: 100rpx;
 }
 </style>

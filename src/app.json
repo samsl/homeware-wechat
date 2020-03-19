@@ -5,6 +5,7 @@
     "pages/upload/main",
     "pages/records/main",
     "pages/record/main",
+    "pages/movie/main",
     "pages/register/main"
   ], 
   "window": {

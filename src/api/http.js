@@ -1,7 +1,7 @@
 import Constant from "@/utils/constant"
 
-const API_HOST = 'https://www.edith.fun'
-//const API_HOST = 'http://localhost:8080'
+// const API_HOST = 'https://www.edith.fun'
+const API_HOST = 'http://localhost:8080'
 
 export default ({
 	request: function (url, method, data, header = {}) {
@@ -39,7 +39,7 @@ export default ({
 			})
 		})
 	},
-	get: function (path, data, header = {}) {
+	get: function (path, data, header) {
 		return this.request(path, 'GET', data, header);
 	},
 	post: function (path, data, header) {
