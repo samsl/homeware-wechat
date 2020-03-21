@@ -26,12 +26,13 @@
       <van-button type="primary" size="large" :disabled="loading" @click="register">注册新账号</van-button>
     </div>
     <div class="login-field">
-      <van-button type="primary" @click="wxLogin" size="large" :disabled="loading" >微信登录</van-button>
+      <van-button type="primary" @click="wxLogin" size="large" :disabled="loading">微信登录</van-button>
     </div>
   </div>
 </template>
 <script>
 import LoginService from "@/api/loginService";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -41,15 +42,21 @@ export default {
     };
   },
   methods: {
-    wxLogin(e){
+    ...mapMutations(["setUserId"]),
+    wxLogin(e) {
       wx.login({
-        success: res=>{
-          LoginService.wxLogin(res.code).then(response=>wx.navigateBack()).catch(err=>console.log(err));
+        success: res => {
+          LoginService.wxLogin(res.code)
+            .then(response => {
+              this.setUserId(response.data.data.id);
+              wx.navigateBack();
+            })
+            .catch(err => console.log(err));
         },
-        fail: res=>{
+        fail: res => {
           console.log("couldn't get response from wechat");
         }
-      })
+      });
     },
     typeUsername(event) {
       this.username = event.mp.detail;
@@ -62,6 +69,7 @@ export default {
       LoginService.login(this.username, this.password)
         .then(response => {
           this.loading = false;
+          this.setUserId(response.data.data.id);
           wx.navigateBack();
         })
         .catch(error => {

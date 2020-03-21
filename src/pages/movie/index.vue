@@ -27,8 +27,8 @@
     </div>
 
     <div class="movies">
-      <div v-for="(movie,i) in movies" :key="i" class="movie">
-        <movie :movie="movie" :idx="i" />
+      <div v-for="(movie,i) in movies" :key="i">       
+        <movie :movie="movie" :records="records" :idx="i" @updateRecord="getRecords" />  
       </div>
     </div>
     <van-popup :show="show" position="bottom" @close="show=false">
@@ -93,6 +93,7 @@
         </div>
       </div>
     </van-popup>
+
     <mytabbar :active="active"></mytabbar>
   </div>
 </template>
@@ -102,9 +103,11 @@ import Movie from "@/components/movie";
 import MovieService from "@/api/movieservice";
 import Constant from "@/utils/constant";
 import ChangeColorButton from "@/components/changeColorButton";
+
 export default {
   data() {
     return {
+      records: {},
       currentRegion: 0,
       currentGenre: 0,
       currentYear: 0,
@@ -127,19 +130,28 @@ export default {
   onLoad() {
     Object.assign(this.$data, this.$options.data());
   },
-  onShow() {
+  mounted() {
     let token = wx.getStorageSync(Constant.AUTHENTICATION);
     if (!token) {
       const url = "/pages/login/main";
       wx.navigateTo({ url });
     } else {
+       this.getRecords();
       this.getMovies(this.from, this.size);
       this.getGenres();
       this.getRegions();
       this.getYears();
+     
     }
   },
   methods: {
+    getRecords() {
+      this.records={};
+      MovieService.getRecords().then(response=>{
+        response.data.data.map(r=>this.records[r.movieId]=r);
+      })
+    },
+   
     search(event) {
       this.keyword = event.mp.detail;
       this.movies = [];
@@ -228,6 +240,7 @@ export default {
         .catch(err => console.log(err));
     }
   },
+  
   components: {
     mytabbar,
     Movie,
@@ -277,4 +290,5 @@ export default {
 .filter-tag {
   margin-right: 20rpx;
 }
+
 </style>

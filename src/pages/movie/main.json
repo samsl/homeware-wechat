@@ -7,6 +7,7 @@
         "van-tabbar": "../../../static/vant/tabbar/index",
         "van-tabbar-item": "../../../static/vant/tabbar-item/index",
         "van-search": "../../../static/vant/search/index",
+        "van-datetime-picker": "../../../static/vant/datetime-picker/index",
         "van-card":"../../../static/vant/card/index",
         "van-icon": "../../../static/vant/icon/index",
         "van-tag": "../../../static/vant/tag/index",
