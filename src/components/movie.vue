@@ -33,6 +33,7 @@
 </template>
 <script>
 import MovieService from "@/api/movieservice";
+import Utils from "@/utils/index";
 import {mapState} from "vuex"
 export default {
   props: ["movie", "idx", "records"],
@@ -49,14 +50,12 @@ export default {
   },
   computed: {
       formatDate() {
-          if (this.record == undefined) {
+          if (Object.keys(this.record).length === 0) {
               return '';
           }
-          const date = new Date(this.record.watchedDate);
-          const year = date.getFullYear();
-          const month = date.getMonth() + 1;
-          const day = date.getDate();
-          return `${year}`
+          const dataString = Utils.formatDate(this.record.watchedDate);
+          
+          return dataString.split("-")[0];
       },
       watched(){       
         return Object.keys(this.record).length;      
